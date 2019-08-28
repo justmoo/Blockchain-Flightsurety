@@ -21,14 +21,9 @@ let boughtFlights= [];
         DOM.elid('submit-oracle').addEventListener('click', () => {
             let flight = DOM.elid('bought-flight').name;
 
-            for(let i = 0 ; i< boughtFlights.length;i++){
-                if(flight == boughtFlights[i].name){
-                   let value = boughtFlights[i];
-                    return value;
-                }
-            }
+            
             // Write transaction
-            contract.fetchFlightStatus(value, (error, result) => {
+            contract.fetchFlightStatus(flight, (error, result) => {
                 display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
             });
         })

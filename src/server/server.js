@@ -21,6 +21,7 @@ let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddre
             await flightSuretyApp.methods.registerOracle().send({from:accounts[i + 10], value:web3.utils.toWei('1', 'ether'), gas: 9999999,
             gasPrice: 20000000000
       });
+            console.log("registered Oracle!")
             let indexes = await flightSuretyApp.methods.getMyIndexes().call({from: accounts[i + 10]});
             oracles.push({address:accounts[i + 10], ids:indexes});
             
@@ -40,7 +41,7 @@ flightSuretyApp.events.OracleRequest({
      if (error) return console.log(error);
       for(var i=0; i<oracles.length;i++){
         let returns = await event.returnValues;
-        if(oracles.ids.indexOf(returns.index) !== -1){
+        if(oracles[i].ids.indexOf(returns.index) !== -1){
           let status = randomStatus();
           await flightSuretyApp.methods.submitOracleResponse(returns.index,returns.airline,returns.flight,returns.timestamp,status).send({
             from:oracles[i].address,
